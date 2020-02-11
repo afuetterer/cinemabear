@@ -13,8 +13,10 @@ django-click = "*"
 django-environ = "*"
 django-filter = "*"
 django-import-export = "*"
+drf-yasg = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
+djangorestframework = "*"
 whitenoise = {extras = ["brotli"],version = "*"}
 
 # Tasks
