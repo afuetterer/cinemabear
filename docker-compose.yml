@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:12.1-alpine
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: unless-stopped
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    environment:
+      - USE_DOCKER=yes
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    volumes:
+      - ./backend:/usr/src/app/backend
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
